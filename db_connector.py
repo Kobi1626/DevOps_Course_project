@@ -8,11 +8,11 @@ def connect():
     global conn, cursor  # Access the global variables.
     try:
         conn = pymysql.connect(
-            host='http://sql8.freesqldatabase.com',
+            host='sql12.freemysqlhosting.net',
             port=3306,
-            user='sql8619116',
-            passwd='EAI1lM387y',
-            db='sql8619116'
+            user='sql12620885',
+            passwd='qrZrbytYKy',
+            db='sql12620885'
         )
         conn.autocommit(True)
         cursor = conn.cursor(pymysql.cursors.DictCursor)

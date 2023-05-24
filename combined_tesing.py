@@ -28,11 +28,11 @@ def get_request(user_id):
 
 def main():
     # Input by the user
-    user_id = input(CINPUT + 'Please Insert a unique UserID: ' + CRESET)  # Receive user input for user_id
-    if not user_id.isdigit():
-        print(CERROR + 'UserID must be a number' + CRESET)
-        exit()
-    user_name = input(CINPUT + 'Please Insert a User Name: ' + CRESET)  # Receive user input for user_name
+    user_id = 4 #input(CINPUT + 'Please Insert a unique UserID: ' + CRESET)  # Receive user input for user_id
+    #if not user_id.isdigit():
+        #print(CERROR + 'UserID must be a number' + CRESET)
+        #exit()
+    user_name ='Kobi'#input(CINPUT + 'Please Insert a User Name: ' + CRESET)  # Receive user input for user_name
     post_res = post_request(user_id, user_name)  # run the post request
 
     # Getting the Username by userid and checking if it matched original input

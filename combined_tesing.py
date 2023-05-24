@@ -50,7 +50,7 @@ def main():
         raise Exception(CERROR + "Test failed, an error has occured." + CRESET)
 
     # Runing Selenium chrome driver and check if it matched after user creation
-    driver = webdriver.Chrome(service=Service("/Users/kobibensenyor/Downloads/chromedriver_mac_arm64"))
+    driver = webdriver.Chrome(service=Service("/Users/kobiben-senyor/Downloads/chromedriver_mac_arm64/chromedriver"))
     driver.get('http://127.0.0.1:5001/users/get_user_data/' + str(user_id))
     user_element = driver.find_element(By.ID, "user")
     user_name_from_e = user_element.text

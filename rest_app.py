@@ -60,6 +60,10 @@ def set_user(user_id):
             reason="UserID Not Found"
         ), 500
 
+@app.route('/stop_server')
+def stop_server():
+    os.kill(os.getpid(), signal.CTRL_C_EVENT)
+    return 'Server stopped'
 
 # Delete an existing user
 @app.route("/users/<user_id>", methods=['DELETE'])

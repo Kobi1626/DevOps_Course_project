@@ -15,12 +15,6 @@ pipeline {
                 git 'https://github.com/Kobi1626/DevOps_Course_project.git'
             }
         }
-
-        stage('Run Clean Environment1') {
-            steps {
-                sh 'python3 clean_environment.py '
-            }
-        }
         
         stage('Install Requirenments') {
            steps {

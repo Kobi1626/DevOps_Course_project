@@ -18,7 +18,7 @@ pipeline {
 
         stage('Run Clean Environment1') {
             steps {
-                sh 'python3 clean_environment.py'
+                sh ' nohup python3 clean_environment.py &'
             }
         }
         

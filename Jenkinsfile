@@ -1,28 +1,30 @@
 pipeline {
     agent any
     
+    triggers {
+        pollSCM('H/30 * * * *')
+    }
+    
+    options {
+        buildDiscarder(logRotator(numToKeepStr: '20', artifactDaysToKeepStr: '5'))
+    }
+    
     stages {
         stage('Pull Code') {
             steps {
-                git 'https://github.com/Kobi1626/DevOps_Course_project.git'
+                git 'https://github.com/EmilyDubnik/devops_course_python_project.git'
             }
         }
         
-        stage('Run requirements') {
+        stage('Install Requirements') {
             steps {
-                sh ' python3 -m pip install -r requirements.txt'
+                sh 'python3 -m pip install -r requirements.txt'
             }
-        }
-               
-        stage('Run backend server') {
-            steps {
-                sh ' nohup python3 rest_app.py &'
-            }
-        }
+        } 
         
-        stage('Run frontend server') {
+        stage('Run Backend Server') {
             steps {
-                sh ' nohup python3 web_app.py &'
+                sh 'nohup python3 rest_app.py &'
             }
         }
         
@@ -32,21 +34,40 @@ pipeline {
             }
         }
         
-        stage('Run frontend testing') {
+        stage('Build Docker Image') {
             steps {
-                sh 'python3 frontend_testing.py'
+                sh 'docker build -t rest_app:latest .'
             }
         }
         
-        stage('Run combined testing') {
+        stage('Push Docker Image') {
             steps {
-                sh 'python3 combined_testing.py'
+                sh 'docker push emydubnik/rest_app:latest'
             }
         }
         
-        stage('Run clean environment') {
+        stage('Set Compose Image Version') {
             steps {
-                sh 'python3 clean_environment.py'
+                sh 'echo "IMAGE_TAG=${BUILD_NUMBER}" > .env'
+            }
+        }
+        
+        stage('Run Docker Compose') {
+            steps {
+                sh 'docker-compose up -d'
+            }
+        }
+        
+        stage('Test Dockerized App') {
+            steps {
+                sh 'python3 docker_backend_testing.py'
+            }
+        }
+        
+        stage('Clean Environment') {
+            steps {
+                sh 'docker-compose down'
+                sh 'docker rmi rest_app:latest'
             }
         }
     }

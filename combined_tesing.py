@@ -16,13 +16,13 @@ CINPUT = '\033[94m'
 
 # Post request for inserting a new user to the DB
 def post_request(user_id, user_name):
-    response = requests.post('http://127.0.0.1:5000/users/' + str(user_id), json={"user_name": user_name})
+    response = requests.post('http://127.0.0.1:5100/users/' + str(user_id), json={"user_name": user_name})
     return response.content
 
 
 # Get request for getting the user_name from the DB according to the user_id
 def get_request(user_id):
-    response = requests.get('http://127.0.0.1:5000/users/' + str(user_id))
+    response = requests.get('http://127.0.0.1:5100/users/' + str(user_id))
     return response.content
 
 

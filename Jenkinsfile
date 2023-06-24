@@ -12,7 +12,7 @@ pipeline {
     stages {
         stage('Pull Code') {
             steps {
-                git 'https://github.com/EmilyDubnik/devops_course_python_project.git'
+                git 'https://github.com/Kobi1626/DevOps_Course_project.git'
             }
         }
         

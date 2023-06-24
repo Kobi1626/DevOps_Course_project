@@ -4,7 +4,7 @@ from flask import request
 import db_connector
 
 HOSTNAME: str = '127.0.0.1'
-PORT: int = 5000
+PORT: int = 5100
 
 app = Flask(__name__)
 

@@ -19,8 +19,7 @@ pipeline {
         stage('Clean Environment1') {
             steps {
                 sh 'nohup python3 clean_environment.py &'
-                sh 'docker-compose down'
-                sh 'docker rmi rest_app:latest'                
+          
             }
         } 
                         

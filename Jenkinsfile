@@ -9,10 +9,6 @@ pipeline {
         buildDiscarder(logRotator(numToKeepStr: '20', artifactDaysToKeepStr: '5'))
     }
 
-    environment {
-    DOCKERHUB_CREDENTIALS = credentials('docker_hub')
-    }
-
     stages {
         stage('Pull Code') {
             steps {
@@ -53,12 +49,6 @@ pipeline {
         stage('Build Docker Image') {
             steps {
                 sh 'docker build -t Kobi1626/rest_app:latest .'
-            }
-        }
-
-        stage('Login') {
-            steps {
-                sh 'echo $DOCKERHUB_CREDENTIALS_PSW | docker login -u $DOCKERHUB_CREDENTIALS_USR --password-stdin'
             }
         }
         

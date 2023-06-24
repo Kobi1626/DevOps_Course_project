@@ -16,6 +16,12 @@ pipeline {
             }
         }
         
+        stage('Clean Environment') {
+            steps {
+                sh 'nohup python3 clean_environment.py &'
+                sh 'docker-compose down'
+                sh 'docker rmi rest_app:latest'
+        
         stage('Install Requirements') {
             steps {
                 sh 'python3 -m pip install -r requirements.txt'

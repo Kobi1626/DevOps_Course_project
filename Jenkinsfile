@@ -48,7 +48,7 @@ pipeline {
         
         stage('Push') {
             steps {
-                sh 'docker push Kobi1626/rest_app:latest'
+                sh 'docker push kobi1626/rest_app:latest'
             }
         }
 

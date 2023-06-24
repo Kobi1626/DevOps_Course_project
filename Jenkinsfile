@@ -42,7 +42,7 @@ pipeline {
         
         stage('Push Docker Image') {
             steps {
-                sh 'docker push emydubnik/rest_app:latest'
+                sh 'docker push Kobi1626/rest_app:latest'
             }
         }
         

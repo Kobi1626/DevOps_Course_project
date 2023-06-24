@@ -20,11 +20,12 @@ pipeline {
             }
         }
 
-        stage('Run Clean Environment') {
+        stage('Run Clean Environment1') {
             steps {
                 sh 'python3 clean_environment.py'
             }
         }
+        
         stage('Install Requirenments') {
            steps {
                 sh ' python3 -m pip install -r requirenments.txt '
@@ -60,6 +61,7 @@ pipeline {
                 sh 'echo $DOCKERHUB_CREDENTIALS_PSW | docker login -u $DOCKERHUB_CREDENTIALS_USR --password-stdin'
             }
         }
+        
         stage('Push') {
             steps {
                 sh 'docker push Kobi1626/rest_app:latest'

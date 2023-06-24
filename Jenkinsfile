@@ -1,77 +1,88 @@
 pipeline {
     agent any
-    
+
     triggers {
         pollSCM('H/30 * * * *')
     }
-    
+
     options {
         buildDiscarder(logRotator(numToKeepStr: '20', artifactDaysToKeepStr: '5'))
     }
-    
+
+    environment {
+    DOCKERHUB_CREDENTIALS = credentials('docker_hub')
+    }
+
     stages {
         stage('Pull Code') {
             steps {
                 git 'https://github.com/Kobi1626/DevOps_Course_project.git'
             }
         }
-        
-        stage('Clean Environment1') {
+
+        stage('Run Clean Environment') {
             steps {
-                sh 'nohup python3 clean_environment.py &'
-          
-            }
-        } 
-                        
-        
-        stage('Install Requirements') {
-            steps {
-                sh 'python3 -m pip install -r requirements.txt'
-            }
-        } 
-        
-        stage('Run Backend Server') {
-            steps {
-                sh 'nohup python3 rest_app.py &'
+                sh 'python3 clean_environment.py'
             }
         }
-        
+        stage('Install Requirenments') {
+           steps {
+                sh ' python3 -m pip install -r requirenments.txt '
+            }
+        }
+
+        stage('Run Backend Server') {
+            steps {
+                sh ' nohup python3 rest_app.py &'
+            }
+        }
+
         stage('Run Backend Testing') {
             steps {
                 sh 'python3 backend_testing.py'
             }
         }
-        
-        stage('Build Docker Image') {
+
+        stage('Run Clean Environment') {
             steps {
-                sh 'docker build -t rest_app:latest .'
+                sh 'python3 clean_environment.py'
             }
         }
-        
-        stage('Push Docker Image') {
+
+        stage('Build Docker Image') {
+            steps {
+                sh 'docker build -t Kobi1626/rest_app:latest .'
+            }
+        }
+
+        stage('Login') {
+            steps {
+                sh 'echo $DOCKERHUB_CREDENTIALS_PSW | docker login -u $DOCKERHUB_CREDENTIALS_USR --password-stdin'
+            }
+        }
+        stage('Push') {
             steps {
                 sh 'docker push Kobi1626/rest_app:latest'
             }
         }
-        
+
         stage('Set Compose Image Version') {
             steps {
                 sh 'echo "IMAGE_TAG=${BUILD_NUMBER}" > .env'
             }
         }
-        
+
         stage('Run Docker Compose') {
             steps {
                 sh 'docker-compose up -d'
             }
         }
-        
+
         stage('Test Dockerized App') {
             steps {
                 sh 'python3 docker_backend_testing.py'
             }
         }
-        
         stage('Clean Environment') {
             steps {
                 sh 'docker-compose down'
